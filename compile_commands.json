@@ -1,0 +1,56 @@
+[
+  {
+    "arguments": [
+      "/usr/local/pspdev/bin/psp-gcc",
+      "-I.",
+      "-I/usr/local/pspdev/psp/sdk/include",
+      "-O2",
+      "-G0",
+      "-Wall",
+      "-D_PSP_FW_VERSION=150",
+      "-c",
+      "-o",
+      "src/main.o",
+      "src/main.c"
+    ],
+    "directory": "/home/chardinventura/Programming/Programs/c/psp-projects/chip8",
+    "file": "/home/chardinventura/Programming/Programs/c/psp-projects/chip8/src/main.c",
+    "output": "/home/chardinventura/Programming/Programs/c/psp-projects/chip8/src/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/local/pspdev/bin/psp-gcc",
+      "-I.",
+      "-I/usr/local/pspdev/psp/sdk/include",
+      "-O2",
+      "-G0",
+      "-Wall",
+      "-D_PSP_FW_VERSION=150",
+      "-c",
+      "-o",
+      "src/opcodes.o",
+      "src/opcodes.c"
+    ],
+    "directory": "/home/chardinventura/Programming/Programs/c/psp-projects/chip8",
+    "file": "/home/chardinventura/Programming/Programs/c/psp-projects/chip8/src/opcodes.c",
+    "output": "/home/chardinventura/Programming/Programs/c/psp-projects/chip8/src/opcodes.o"
+  },
+  {
+    "arguments": [
+      "/usr/local/pspdev/bin/psp-gcc",
+      "-I.",
+      "-I/usr/local/pspdev/psp/sdk/include",
+      "-O2",
+      "-G0",
+      "-Wall",
+      "-D_PSP_FW_VERSION=150",
+      "-c",
+      "-o",
+      "src/gfx.o",
+      "src/gfx.c"
+    ],
+    "directory": "/home/chardinventura/Programming/Programs/c/psp-projects/chip8",
+    "file": "/home/chardinventura/Programming/Programs/c/psp-projects/chip8/src/gfx.c",
+    "output": "/home/chardinventura/Programming/Programs/c/psp-projects/chip8/src/gfx.o"
+  }
+]
