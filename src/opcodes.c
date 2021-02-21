@@ -1,16 +1,14 @@
 #include "opcodes.h"
-#include "pspdebug.h"
-#include <stdint.h>
-#include <unistd.h>
-#include "pspkerneltypes.h"
-#include "psploadexec.h"
+#include <time.h>
+#include <pspkernel.h>
+#include <pspdebug.h>
 #include <string.h>
 #include <stdlib.h>
 #include <pspctrl.h>
 
-unsigned short keys[] = {
-	PSP_CTRL_UP, PSP_CTRL_DOWN, PSP_CTRL_LEFT, PSP_CTRL_RIGHT,
-	PSP_CTRL_TRIANGLE, PSP_CTRL_CROSS, PSP_CTRL_SQUARE, PSP_CTRL_CIRCLE,
+uint16_t keys[] = {
+	PSP_CTRL_TRIANGLE, PSP_CTRL_UP, PSP_CTRL_LEFT, PSP_CTRL_RIGHT,
+	PSP_CTRL_DOWN, PSP_CTRL_CROSS, PSP_CTRL_SQUARE, PSP_CTRL_CIRCLE,
 	PSP_CTRL_LTRIGGER, PSP_CTRL_RTRIGGER, PSP_CTRL_SELECT, PSP_CTRL_START
 };
 
@@ -27,7 +25,7 @@ void opcode_0000(uint16_t opcode, uint8_t* pixels, uint16_t npixels, uint16_t* p
 			break;
 		default:
 			pspDebugScreenPrintf("Opcode(%x) not found.\n", opcode);
-			sleep(2);
+			sceKernelDelayThread(1000 * 5000);
 			sceKernelExitGame();
 			break;
 	}
@@ -121,7 +119,7 @@ void opcode_8000(uint16_t opcode, uint8_t* v) {
 			break;
 		default:
 			pspDebugScreenPrintf("Opcode(%x) not found.\n", opcode);
-			sleep(2);
+			sceKernelDelayThread(1000 * 5000);
 			sceKernelExitGame();
 			break;
 	}
@@ -173,12 +171,12 @@ void opcode_E000(uint16_t opcode, uint16_t *pc, uint8_t* v, uint16_t k) {
 			break;
 		// SKNP Vx
 		case 0xA1:
-			if((keys[v[(opcode >> 8) & 0xF]] ^ k))
+			if(keys[v[(opcode >> 8) & 0xF]] ^ k)
 				*pc += 2;
 			break;
 		default:
 			pspDebugScreenPrintf("Opcode(%x) not found.\n", opcode);
-			sleep(2);
+			sceKernelDelayThread(1000 * 5000);
 			sceKernelExitGame();
 			break;
 	}
@@ -233,7 +231,7 @@ void opcode_F000(uint16_t opcode, uint8_t* delay_timer, uint8_t* sound_timer,
 			break;
 		default:
 			pspDebugScreenPrintf("Opcode(%x) not found.\n", opcode);
-			sleep(2);
+			sceKernelDelayThread(1000 * 5000);
 			sceKernelExitGame();
 			break;
 	}

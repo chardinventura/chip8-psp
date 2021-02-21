@@ -1,7 +1,4 @@
-#include "pspiofilemgr.h"
 #include "pspkerneltypes.h"
-#include <dirent.h>
-#include <stdint.h>
 #include <stdio.h>
 #include "psploadexec.h"
 #include "pspthreadman.h"
@@ -13,7 +10,6 @@
 #include <time.h>
 #include "opcodes.h"
 #include "gfx.h"
-#include <pspiofilemgr_dirent.h>
 
 PSP_MODULE_INFO("Chip-8", 0, 1, 1);
 
@@ -81,98 +77,35 @@ void init() {
 	srand(time(NULL));
 }
 
-int load_rom(char* rom) {
+void load_rom(char* rom) {
 
-	FILE* fptr;
+	FILE* fptr = fopen(rom, "rb");
 
-	if(!(fptr = fopen(rom, "rb")))
-		return -1;
+	if(fptr == NULL) {
+		pspDebugScreenPrintf("Rom not found.\n");
+		sceKernelDelayThread(1000 * 5000);
+		sceKernelExitGame();
+	}
 
 	fseek(fptr, 0x0, SEEK_END);
 	int file_size = ftell(fptr);
 	fseek(fptr, 0x0, SEEK_SET);
 
-	fread(memory + MEMORY_BEGIN, file_size, 1, fptr);
+	fread(&memory[MEMORY_BEGIN], file_size, 1, fptr);
 
 	fclose(fptr);
-	return 0;
-}
-
-void print_menu(char **list, uint8_t list_size, uint8_t option) {
-
-	for (uint8_t i = 0; i < list_size; i++) {
-
-		if(i == option)
-			pspDebugScreenSetTextColor(0xFF00FFFF);
-		else
-			pspDebugScreenSetTextColor(0xFFFFFFFF);
-
-		pspDebugScreenPrintf("%s\n", list[i]);
-	}
-}
-
-int show_files(char *dir_name) {
-
-	DIR *dirp;
-	struct dirent *direntp;
-
-	if(!(dirp = opendir(dir_name)))
-		return -1;
-
-	while ((direntp = readdir(dirp))) {
-		pspDebugScreenPrintf("%s\n", direntp->d_name);
-	}
-
-	closedir(dirp);
-	return 0;
 }
 
 int main() {
 
 	init();
-	load_rom("PONG");
-	//uint16_t opcode;
+	load_rom("roms/PONG");
+	uint16_t opcode;
 
 	SceCtrlData pad;
 	sceCtrlSetSamplingCycle(0);
 	sceCtrlSetSamplingMode(PSP_CTRL_MODE_ANALOG);
 
-	uint8_t option = 0;
-
-	uint8_t list_size = 2;
-	char **list = malloc(20 * list_size);
-	list[0] = "Load rom";
-	list[1] = "Exit";
-
-	while (1) {
-		pspDebugScreenSetXY(0, 0);
-		sceCtrlReadBufferPositive(&pad, 1);
-
-		print_menu(list, list_size, option);
-
-		if(pad.Buttons & PSP_CTRL_UP)
-			option -= 1;
-		if(pad.Buttons & PSP_CTRL_DOWN)
-			option += 1;
-
-		if(pad.Buttons & PSP_CTRL_CIRCLE) {
-			switch (option) {
-				case 0:
-					show_files(".");
-					break;
-				case 1:
-					free(list);
-					sceKernelExitGame();
-					break;
-			}
-		}
-
-		if(pad.Buttons > 0) {
-			sceKernelDelayThread(1000 * 150);
-			option %= list_size;
-		}
-	}
-/*
 	while (1) {
 
 		opcode = (memory[pc] << 8) | memory[pc + 1];
@@ -181,7 +114,7 @@ int main() {
 		sceCtrlReadBufferPositive(&pad, 1);
 
 		switch (opcode & 0xF000) {
-			case 0x000:
+			case 0x0000:
 				opcode_0000(opcode, pixels, NPIXELS, &pc, stack, &sp);
 				break;
 			case 0x1000:
@@ -233,7 +166,7 @@ int main() {
 				break;
 			default:
 				pspDebugScreenPrintf("Opcode(%x) not found.\n", opcode);
-				sleep(2);
+				sceKernelDelayThread(1000 * 5000);
 				sceKernelExitGame();
 				break;
 		}
@@ -243,6 +176,6 @@ int main() {
 		if(sound_timer != 0)
 			sound_timer--;
 	}
-*/
+
 	return 0;
 }
