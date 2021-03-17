@@ -6,10 +6,11 @@
 #include <stdlib.h>
 #include <pspctrl.h>
 
-uint16_t keys[] = {
-	PSP_CTRL_TRIANGLE, PSP_CTRL_UP, PSP_CTRL_LEFT, PSP_CTRL_RIGHT,
-	PSP_CTRL_DOWN, PSP_CTRL_CROSS, PSP_CTRL_SQUARE, PSP_CTRL_CIRCLE,
-	PSP_CTRL_LTRIGGER, PSP_CTRL_RTRIGGER, PSP_CTRL_SELECT, PSP_CTRL_START
+uint32_t keys[] = {
+	PSP_CTRL_VOLUP, PSP_CTRL_UP, PSP_CTRL_LEFT, PSP_CTRL_RIGHT,
+	PSP_CTRL_DOWN, PSP_CTRL_VOLDOWN, PSP_CTRL_SQUARE, PSP_CTRL_CIRCLE,
+	PSP_CTRL_LTRIGGER, PSP_CTRL_RTRIGGER, PSP_CTRL_SELECT, PSP_CTRL_START,
+	PSP_CTRL_TRIANGLE, PSP_CTRL_CROSS, PSP_CTRL_HOLD, PSP_CTRL_SCREEN
 };
 
 void opcode_0000(uint16_t opcode, uint8_t* pixels, uint16_t npixels, uint16_t* pc, uint16_t* stack, uint8_t* sp) {
@@ -162,7 +163,7 @@ void opcode_Dxyn(uint16_t opcode, uint8_t* pixels, uint8_t* memory, uint16_t I, 
 }
 
 // Opcodes of E000
-void opcode_E000(uint16_t opcode, uint16_t *pc, uint8_t* v, uint16_t k) {
+void opcode_E000(uint16_t opcode, uint16_t *pc, uint8_t* v, uint32_t k) {
 	switch (opcode & 0xFF) {
 		// SKP Vx
 		case 0x9E:

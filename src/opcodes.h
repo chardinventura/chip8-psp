@@ -43,7 +43,7 @@ void opcode_Cxkk(uint16_t opcode, uint8_t* v);
 void opcode_Dxyn(uint16_t opcode, uint8_t* pixels, uint8_t* memory, uint16_t I, uint8_t* v);
 
 // Opcodes of E000
-void opcode_E000(uint16_t opcode, uint16_t *pc, uint8_t* v, uint16_t k);
+void opcode_E000(uint16_t opcode, uint16_t *pc, uint8_t* v, uint32_t k);
 
 // Opcodes of F000
 void opcode_F000(uint16_t opcode, uint8_t* delay_timer,  uint8_t* sound_timer, uint8_t* v, uint16_t k, uint16_t* I, uint8_t* memory);

@@ -5,7 +5,6 @@
 #include <pspdebug.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 #include <pspctrl.h>
 #include <time.h>
 #include "opcodes.h"
